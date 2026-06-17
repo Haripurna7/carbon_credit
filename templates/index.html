@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoFootprint Pro - Enterprise ESG & AI Carbon Footprint Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="background-decor">
+        <div class="blur-blob blob-1"></div>
+        <div class="blur-blob blob-2"></div>
+        <div class="blur-blob blob-3"></div>
+    </div>
+
+    <header class="app-header no-print">
+        <div class="logo">
+            <i class="fa-solid fa-seedling text-emerald"></i>
+            <span>EcoFootprint<span class="logo-sub">Pro</span></span>
+        </div>
+        <div class="tagline">GHG Protocol ESG Certified Calculator</div>
+    </header>
+
+    <main class="app-container">
+        <!-- Print Only Header -->
+        <div class="print-only-header">
+            <h2>EcoFootprint Pro - Personal ESG Carbon Audit Report</h2>
+            <p>Generated on <span id="print-date"></span> | Certified GHG Protocol Alignment</p>
+        </div>
+
+        <!-- Form Section -->
+        <section class="card glass-card form-section no-print" id="form-card">
+            <div class="stepper-header">
+                <div class="step-progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 25%;"></div>
+                </div>
+                <div class="steps-indicators">
+                    <div class="step-indicator active" data-step="1">
+                        <span class="step-num">1</span>
+                        <span class="step-label">Personal</span>
+                    </div>
+                    <div class="step-indicator" data-step="2">
+                        <span class="step-num">2</span>
+                        <span class="step-label">Energy</span>
+                    </div>
+                    <div class="step-indicator" data-step="3">
+                        <span class="step-num">3</span>
+                        <span class="step-label">Travel</span>
+                    </div>
+                    <div class="step-indicator" data-step="4">
+                        <span class="step-num">4</span>
+                        <span class="step-label">Waste</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="calculator-form" novalidate>
+                <!-- STEP 1: Personal & Diet -->
+                <div class="form-step active" data-step="1">
+                    <h2 class="step-title"><i class="fa-solid fa-user-circle"></i> Personal Profile & Diet</h2>
+                    <p class="step-desc">Tell us a bit about yourself and your eating habits to begin your carbon estimation.</p>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="Sex">Gender</label>
+                            <div class="select-wrapper">
+                                <select id="Sex" name="Sex" required>
+                                    <option value="female" selected>Female</option>
+                                    <option value="male">Male</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Body Type">Body Type</label>
+                            <div class="select-wrapper">
+                                <select id="Body Type" name="Body Type" required>
+                                    <option value="normal" selected>Normal</option>
+                                    <option value="underweight">Underweight</option>
+                                    <option value="overweight">Overweight</option>
+                                    <option value="obese">Obese</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Diet">Dietary Lifestyle</label>
+                            <div class="select-wrapper">
+                                <select id="Diet" name="Diet" required>
+                                    <option value="omnivore" selected>Omnivore (Meat + Veg)</option>
+                                    <option value="pescatarian">Pescatarian (Fish + Veg)</option>
+                                    <option value="vegetarian">Vegetarian (No Meat/Fish)</option>
+                                    <option value="vegan">Vegan (Plant-Based only)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="How Often Shower">Shower Frequency</label>
+                            <div class="select-wrapper">
+                                <select id="How Often Shower" name="How Often Shower" required>
+                                    <option value="daily" selected>Daily</option>
+                                    <option value="less frequently">Less frequently</option>
+                                    <option value="more frequently">More frequently</option>
+                                    <option value="twice a day">Twice a day</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="Social Activity">Socializing Frequency</label>
+                            <div class="select-wrapper">
+                                <select id="Social Activity" name="Social Activity" required>
+                                    <option value="sometimes" selected>Sometimes</option>
+                                    <option value="often">Often</option>
+                                    <option value="never">Never</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Home & Energy -->
+                <div class="form-step" data-step="2">
+                    <h2 class="step-title"><i class="fa-solid fa-house-chimney"></i> Household Energy & Tech</h2>
+                    <p class="step-desc">Heating, cooking appliances, and electronic screen time affect your domestic footprint.</p>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="Heating Energy Source">Primary Heating Energy Source</label>
+                            <div class="select-wrapper">
+                                <select id="Heating Energy Source" name="Heating Energy Source" required>
+                                    <option value="natural gas" selected>Natural Gas</option>
+                                    <option value="electricity">Electricity</option>
+                                    <option value="wood">Wood heating</option>
+                                    <option value="coal">Coal heating</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Energy efficiency">Home Energy Efficiency Status</label>
+                            <div class="select-wrapper">
+                                <select id="Energy efficiency" name="Energy efficiency" required>
+                                    <option value="Yes" selected>Yes (Insulated/LEDs/Efficient)</option>
+                                    <option value="Sometimes">Sometimes / Partially</option>
+                                    <option value="No">No / Not efficient</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="How Long TV PC Daily Hour">Daily TV & PC Usage (Hours)</label>
+                            <input type="number" id="How Long TV PC Daily Hour" name="How Long TV PC Daily Hour" min="0" max="24" value="3" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="How Long Internet Daily Hour">Daily Internet Usage (Hours)</label>
+                            <input type="number" id="How Long Internet Daily Hour" name="How Long Internet Daily Hour" min="0" max="24" value="4" required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Cooking Appliances Used (Select all that apply)</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Cooking_With" value="Stove" checked>
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Stove
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Cooking_With" value="Oven" checked>
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Oven
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Cooking_With" value="Microwave" checked>
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Microwave
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Cooking_With" value="Grill">
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Grill
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Cooking_With" value="Airfryer">
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Airfryer
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Transportation -->
+                <div class="form-step" data-step="3">
+                    <h2 class="step-title"><i class="fa-solid fa-car-side"></i> Transportation Habits</h2>
+                    <p class="step-desc">Your daily travel routines have the single largest impact on overall carbon numbers.</p>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="Transport">Primary Transportation Mode</label>
+                            <div class="select-wrapper">
+                                <select id="Transport" name="Transport" required>
+                                    <option value="public" selected>Public Transit (Bus, Train, Subway)</option>
+                                    <option value="walk/bicycle">Walk / Bicycle</option>
+                                    <option value="private">Private Vehicle (Own car, Motorcycle)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Conditional Private Vehicle Fields -->
+                        <div class="form-group conditional-field" id="vehicle-type-group" style="display: none;">
+                            <label for="Vehicle Type">Vehicle Fuel/Power Type</label>
+                            <div class="select-wrapper">
+                                <select id="Vehicle Type" name="Vehicle Type">
+                                    <option value="petrol" selected>Petrol (Gasoline)</option>
+                                    <option value="diesel">Diesel</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="electric">Electric (EV)</option>
+                                    <option value="lpg">LPG</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group conditional-field" id="vehicle-distance-group" style="display: none;">
+                            <label for="Vehicle Monthly Distance Km">Monthly Driving Distance (Km)</label>
+                            <input type="number" id="Vehicle Monthly Distance Km" name="Vehicle Monthly Distance Km" min="0" max="10000" value="800">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Consumption & Waste -->
+                <div class="form-step" data-step="4">
+                    <h2 class="step-title"><i class="fa-solid fa-dumpster-fire"></i> Waste & Consumption</h2>
+                    <p class="step-desc">Shopping habits, travel by air, grocery purchases, and recycling activities.</p>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="Frequency of Traveling by Air">Air Travel Frequency</label>
+                            <div class="select-wrapper">
+                                <select id="Frequency of Traveling by Air" name="Frequency of Traveling by Air" required>
+                                    <option value="never">Never fly</option>
+                                    <option value="rarely" selected>Rarely (1-2 flights/year)</option>
+                                    <option value="frequently">Frequently (Business/Leisure)</option>
+                                    <option value="very frequently">Very frequently (Frequent Flyer)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Monthly Grocery Bill">Monthly Grocery Spending ($)</label>
+                            <input type="number" id="Monthly Grocery Bill" name="Monthly Grocery Bill" min="10" max="1000" value="120" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="How Many New Clothes Monthly">New Clothes Purchased Monthly</label>
+                            <input type="number" id="How Many New Clothes Monthly" name="How Many New Clothes Monthly" min="0" max="100" value="2" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Waste Bag Size">Waste Bag Size</label>
+                            <div class="select-wrapper">
+                                <select id="Waste Bag Size" name="Waste Bag Size" required>
+                                    <option value="small">Small bag</option>
+                                    <option value="medium" selected>Medium bag</option>
+                                    <option value="large">Large bag</option>
+                                    <option value="extra large">Extra Large bag</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Waste Bag Weekly Count">Waste Bags Disposed per Week</label>
+                            <input type="number" id="Waste Bag Weekly Count" name="Waste Bag Weekly Count" min="1" max="50" value="2" required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Materials You Recycle</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Recycling" value="Paper" checked>
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Paper
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Recycling" value="Plastic" checked>
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Plastic
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Recycling" value="Glass">
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Glass
+                                </label>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="Recycling" value="Metal">
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Metal
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons Area -->
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" id="prev-btn" style="display: none;">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-primary" id="next-btn">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-submit" id="submit-btn" style="display: none;">
+                        Calculate footprint <i class="fa-solid fa-calculator"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Loader Section -->
+        <section class="card glass-card loader-card no-print" id="loader-card" style="display: none;">
+            <div class="loader-spinner"></div>
+            <h3>Analyzing ESG Carbon Scopes...</h3>
+            <p>Predicting emissions with our HistGradientBoosting ensemble...</p>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-dashboard" id="results-card" style="display: none;">
+            <!-- Actions bar (Only visible on screen, not on print) -->
+            <div class="dashboard-actions no-print">
+                <button class="action-badge-btn" id="pdf-btn"><i class="fa-solid fa-file-pdf"></i> Download PDF Report</button>
+                <button class="action-badge-btn" id="export-json-btn"><i class="fa-solid fa-file-code"></i> Export JSON</button>
+                <button class="action-badge-btn" id="export-csv-btn"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+            </div>
+
+            <div class="results-grid">
+                <!-- Highlight Score Card -->
+                <div class="card glass-card main-score-card">
+                    <h3 class="card-label">Predicted Annual Footprint</h3>
+                    <div class="emission-value-wrapper">
+                        <span class="emission-number" id="result-emission">2,011.52</span>
+                        <span class="emission-unit">kg CO2e / year</span>
+                    </div>
+                    <div class="badge-wrapper">
+                        <span class="status-badge" id="result-badge">Moderate Impact</span>
+                    </div>
+                    <p class="status-desc" id="result-desc">Your carbon footprint is about average compared to the standard global distribution.</p>
+                </div>
+
+                <!-- Gauge Chart Card -->
+                <div class="card glass-card gauge-card no-print">
+                    <h3 class="card-label">Comparison Meter</h3>
+                    <div class="gauge-container">
+                        <div class="gauge-body">
+                            <div class="gauge-fill" id="gauge-fill"></div>
+                            <div class="gauge-cover">
+                                <span id="gauge-percent">50%</span>
+                                <span class="gauge-label">of Average</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comparison-stats">
+                        <div class="stat-col">
+                            <span class="stat-val text-emerald">&lt; 1,200</span>
+                            <span class="stat-lbl">Low Target</span>
+                        </div>
+                        <div class="stat-col">
+                            <span class="stat-val text-amber">1,200 - 2,200</span>
+                            <span class="stat-lbl">Moderate</span>
+                        </div>
+                        <div class="stat-col">
+                            <span class="stat-val text-rose">&gt; 2,200</span>
+                            <span class="stat-lbl">High</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Industrial GHG Protocol Scope Breakdown Card -->
+            <div class="card glass-card scope-breakdown-card">
+                <h3 class="card-label"><i class="fa-solid fa-chart-pie"></i> Industrial Scope Breakdown (GHG Protocol)</h3>
+                <p class="scope-intro">Emissions are categorized into scopes to align with international ESG reporting standards.</p>
+                
+                <div class="scope-bar-wrapper">
+                    <div class="scope-bar-fill" id="scope1-bar" style="width: 33%;" title="Scope 1 Direct"></div>
+                    <div class="scope-bar-fill" id="scope2-bar" style="width: 33%;" title="Scope 2 Purchased Energy"></div>
+                    <div class="scope-bar-fill" id="scope3-bar" style="width: 34%;" title="Scope 3 Value Chain"></div>
+                </div>
+
+                <div class="scope-items">
+                    <!-- Scope 1 -->
+                    <div class="scope-item-card s1">
+                        <div class="scope-item-header">
+                            <span class="scope-item-title"><span class="bullet s1"></span>Scope 1: Direct Emissions</span>
+                            <span class="scope-item-val" id="scope1-val">663.8 kg (33%)</span>
+                        </div>
+                        <p class="scope-item-desc">Emissions from activities directly under your control, such as burning fossil fuels for private driving and home heating (natural gas/coal/wood).</p>
+                    </div>
+
+                    <!-- Scope 2 -->
+                    <div class="scope-item-card s2">
+                        <div class="scope-item-header">
+                            <span class="scope-item-title"><span class="bullet s2"></span>Scope 2: Purchased Energy</span>
+                            <span class="scope-item-val" id="scope2-val">663.8 kg (33%)</span>
+                        </div>
+                        <p class="scope-item-desc">Indirect emissions from the generation of electricity you purchase for domestic appliances, lighting, heating, electric vehicle charging, and computing.</p>
+                    </div>
+
+                    <!-- Scope 3 -->
+                    <div class="scope-item-card s3">
+                        <div class="scope-item-header">
+                            <span class="scope-item-title"><span class="bullet s3"></span>Scope 3: Indirect Value Chain</span>
+                            <span class="scope-item-val" id="scope3-val">683.9 kg (34%)</span>
+                        </div>
+                        <p class="scope-item-desc">All other indirect emissions from your supply chain and lifestyle, including diets, clothing manufacturing, aviation travel, and landfill waste decomposition.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Carbon Offsetting Simulator -->
+            <div class="card glass-card offset-simulator-card no-print">
+                <div class="recs-header">
+                    <h2><i class="fa-solid fa-sliders text-emerald"></i> Interactive Carbon Offsetting Simulator</h2>
+                    <p>Simulate sustainable actions in real-time to visualize how you can lower your carbon footprint.</p>
+                </div>
+
+                <div class="simulator-grid">
+                    <!-- Sliders panel -->
+                    <div class="sim-controls">
+                        <!-- Control 1 -->
+                        <div class="sim-group">
+                            <div class="sim-label-row">
+                                <label for="sim-trees">Plant Native Trees</label>
+                                <span class="sim-val" id="sim-trees-val">0 Trees</span>
+                            </div>
+                            <input type="range" id="sim-trees" min="0" max="100" value="0" class="sim-slider">
+                            <span class="sim-effect text-emerald"><i class="fa-solid fa-caret-down"></i> Offsets: <span id="sim-trees-offset">0</span> kg CO2e / yr</span>
+                        </div>
+
+                        <!-- Control 2 -->
+                        <div class="sim-group">
+                            <div class="sim-label-row">
+                                <label for="sim-solar">Solar Clean Energy Shift</label>
+                                <span class="sim-val" id="sim-solar-val">0% Solar</span>
+                            </div>
+                            <input type="range" id="sim-solar" min="0" max="100" value="0" class="sim-slider">
+                            <span class="sim-effect text-emerald"><i class="fa-solid fa-caret-down"></i> Offsets: <span id="sim-solar-offset">0</span> kg CO2e / yr</span>
+                        </div>
+
+                        <!-- Control 3 -->
+                        <div class="sim-group">
+                            <label>Transportation Mitigations</label>
+                            <div class="toggle-group">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="sim-ev">
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Switch to Electric Vehicle (EV)
+                                </label>
+                                <span class="sim-effect text-emerald" id="sim-ev-effect" style="display: none;"><i class="fa-solid fa-caret-down"></i> Offsets Scope 1 Fuel</span>
+                            </div>
+                        </div>
+
+                        <!-- Control 4 -->
+                        <div class="sim-group">
+                            <label>Dietary Mitigations</label>
+                            <div class="toggle-group">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="sim-diet">
+                                    <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                    Shift to Plant-Based Diet (Vegan)
+                                </label>
+                                <span class="sim-effect text-emerald" id="sim-diet-effect" style="display: none;"><i class="fa-solid fa-caret-down"></i> Cuts Diet Emissions by 75%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Simulator Output panel -->
+                    <div class="sim-output-box">
+                        <h4 class="sim-box-title">Simulation Analysis</h4>
+                        
+                        <div class="sim-stat-row">
+                            <span>Original Footprint:</span>
+                            <span class="sim-stat-num" id="sim-orig-val">2011.5 kg</span>
+                        </div>
+                        <div class="sim-stat-row text-emerald">
+                            <span>Total Mitigations:</span>
+                            <span class="sim-stat-num">-<span id="sim-mitigation-val">0</span> kg</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="sim-stat-row simulated-total">
+                            <span>Simulated Footprint:</span>
+                            <span class="sim-stat-num" id="sim-final-val">2011.5 kg</span>
+                        </div>
+
+                        <div class="sim-progress-wrapper">
+                            <div class="sim-progress-bar">
+                                <div class="sim-progress-fill" id="sim-progress-fill" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        
+                        <p class="sim-comparison-text" id="sim-comparison-text">No active simulated mitigations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actionable Recommendations Card -->
+            <div class="card glass-card recommendations-card">
+                <div class="recs-header">
+                    <h2><i class="fa-solid fa-leaf text-emerald animate-pulse"></i> Personalized Action Plan</h2>
+                    <p>Based on your profile, here are the most effective actions you can take to lower your carbon footprint.</p>
+                </div>
+                <div class="recommendations-list" id="recommendations-container">
+                    <!-- Dynamic recommendations will be placed here -->
+                </div>
+                <div class="recs-footer no-print">
+                    <button class="btn btn-secondary" id="recalc-btn">
+                        <i class="fa-solid fa-redo"></i> Calculate Again
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer no-print">
+        <p>© 2026 EcoFootprint Pro. Designed for Green Internship ESG Portfolio.</p>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
