@@ -9,9 +9,9 @@ print("Starting model training script...")
 
 # 1. Load data
 data_path = "Carbon Emission.csv"
-if not os.path.exists(data_path):
-    # Fallback to absolute path
-    data_path = r"C:\hari\py_jupyter\Carbon Emission.csv"
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 df = pd.read_csv(data_path)
 print(f"Data loaded successfully. Shape: {df.shape}")
@@ -41,8 +41,8 @@ model = HistGradientBoostingRegressor(random_state=42)
 model.fit(X, y)
 print("Model trained successfully.")
 
-# 6. Save model and metadata
-save_path = r"C:\hari\py_jupyter\carbon_model.joblib"
+
+save_path = os.path.join(BASE_DIR, "carbon_model.joblib")
 payload = {
     "model": model,
     "encoders": le_dict,

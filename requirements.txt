@@ -1,6 +1,6 @@
 Flask==3.1.1
 gunicorn==23.0.0
-joblib
+joblib==1.5.1
 numpy
 pandas
-scikit-learn
+scikit-learn==1.7.1
