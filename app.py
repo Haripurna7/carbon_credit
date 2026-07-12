@@ -7,9 +7,12 @@ import os
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
 # Load model and encoders
-model_path = r"C:\hari\py_jupyter\carbon_model.joblib"
-if not os.path.exists(model_path):
-    model_path = "carbon_model.joblib"
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "carbon_model.joblib")
+
+model_data = joblib.load(model_path)
 
 print(f"Loading model from {model_path}...")
 model_data = joblib.load(model_path)
